@@ -1,0 +1,33 @@
+{
+  "name": "v2a-notion-lead-form",
+  "version": "0.0.1",
+  "private": true,
+  "workspaces": [
+    "apps/*"
+  ],
+  "scripts": {
+    "dev:infra": "docker compose --project-directory . -f deployment/docker-compose.yml up -d --wait && npm run seed",
+    "dev:infra:down": "docker compose --project-directory . -f deployment/docker-compose.yml down",
+    "seed": "docker exec hackathon-intelligence-notion-postgres-1 psql -U intelligence -d intelligence_app -v ON_ERROR_STOP=1 -c \"INSERT INTO cpki.users (id, organization_id, created_at) VALUES ('default', 'casa-de-erlang', NOW()), ('1_default', 'casa-de-erlang', NOW()) ON CONFLICT (id) DO NOTHING;\"",
+    "check-env": "node -e \"console.log('Skipping check-env on Windows')\"",
+    "predev": "node -e \"console.log('Skipping check-env on Windows')\"",
+    "dev": "npm run dev:infra && npx concurrently -k -n ui,bff,agent -c blue,cyan,green \"npm run dev:ui\" \"npm run dev:bff\" \"npm run dev:agent\"",
+    "predev:full": "node -e \"console.log('Skipping check-env on Windows')\"",
+    "dev:full": "npm run dev:infra && npx concurrently -k -n ui,bff,agent,mcp -c blue,cyan,green,magenta \"npm run dev:ui\" \"npm run dev:bff\" \"npm run dev:agent\" \"npm run dev:mcp\"",
+    "dev:ui": "npm run dev --workspace frontend",
+    "dev:bff": "npm run dev --workspace bff",
+    "dev:agent": "cd apps/agent && uv run langgraph dev --port 8133",
+    "dev:mcp": "npm run dev --workspace mcp",
+    "install:agent": "cd apps/agent && uv sync",
+    "install:mcp": "npm install --workspace mcp",
+    "postinstall": "npm run install:agent",
+    "license": "npx copilotkit license -n hackathon-kit",
+    "build": "npm run build --workspace frontend",
+    "build:bff": "npm run build --workspace bff",
+    "start": "npm run start --workspace frontend",
+    "lint": "npm run lint --workspace frontend"
+  },
+  "devDependencies": {
+    "concurrently": "^9.2.1"
+  }
+}
