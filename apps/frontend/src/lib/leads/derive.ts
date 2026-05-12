@@ -81,7 +81,7 @@ export function workshopClass(workshop: string): string {
 
 const STATUS_COLORS: Record<string, string> = {
   "New Patient":
-    "bg-slate-500/15 text-slate-700 dark:text-slate-300 ring-slate-500/30",
+    "bg-blue-500/15 text-blue-700 dark:text-blue-300 ring-blue-500/30",
   "Consultation":
     "bg-amber-500/15 text-amber-700 dark:text-amber-300 ring-amber-500/30",
   "Treatment Plan": "bg-emerald-500/15 text-emerald-700 dark:text-emerald-300 ring-emerald-500/30",

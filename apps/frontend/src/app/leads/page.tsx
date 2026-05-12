@@ -183,7 +183,7 @@ function CanvasInner() {
 
   return (
     <>
-      <main className="flex h-screen flex-col gap-5 overflow-hidden bg-background px-6 py-6">
+      <main className="flex min-h-screen flex-col gap-5 overflow-auto bg-background px-4 py-4 md:h-screen md:overflow-hidden md:px-6 md:py-6">
         <Header
           title={state.header.title}
           subtitle={state.header.subtitle}
@@ -202,7 +202,7 @@ function CanvasInner() {
         ) : (
           <>
             <QuickStats leads={state.leads} />
-            <div className="grid gap-3 md:grid-cols-2">
+            <div className="grid grid-cols-1 gap-3 lg:grid-cols-2">
               <StatusDonut leads={state.leads} />
               <WorkshopDemand
                 leads={state.leads}
@@ -219,7 +219,7 @@ function CanvasInner() {
                 compact
               />
             </div>
-            <div className="min-h-0 flex-1 overflow-auto">
+            <div className="min-h-[400px] flex-1 overflow-auto md:min-h-0">
               <PipelineBoard
                 leads={visibleLeads}
                 selectedLeadId={state.selectedLeadId}

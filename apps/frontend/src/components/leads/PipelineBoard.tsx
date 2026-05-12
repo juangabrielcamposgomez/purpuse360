@@ -136,8 +136,8 @@ function DroppableColumn({
       ref={setNodeRef}
       className={`flex flex-1 min-w-72 shrink-0 flex-col rounded-xl border bg-card transition ${
         isOver
-          ? "border-[#BEC2FF] ring-1 ring-[#BEC2FF] bg-[#BEC2FF1A]"
-          : "border-border"
+          ? "border-blue-500 ring-1 ring-blue-500 bg-blue-50/50 shadow-md"
+          : "border-border shadow-sm"
       }`}
     >
       <header className="flex items-center justify-between gap-2 border-b border-border/60 px-4 py-3">

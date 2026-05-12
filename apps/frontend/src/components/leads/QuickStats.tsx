@@ -11,7 +11,7 @@ interface Tile {
   label: string;
   value: string;
   meta?: string;
-  accent?: "lilac" | "mint" | "blue" | "orange";
+  accent?: "indigo" | "mint" | "blue" | "orange";
 }
 
 const ACCENT: Record<NonNullable<Tile["accent"]>, string> = {
