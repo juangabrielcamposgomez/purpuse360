@@ -234,16 +234,16 @@ function CanvasInner() {
         )}
       </main>
 
-      <CopilotSidebar 
-        open={isChatOpen} 
-        onOpenChange={setIsChatOpen}
-        width={420} 
-        labels={{
-          initial: "Hola, soy Purpose360 Intelligence. ¿Cómo puedo ayudarte hoy?",
-          chatInputPlaceholder: "¿Cómo puedo ayudarte con tu estrategia hoy?",
-        }}
-        input={{ disclaimer: () => null, className: "pb-6" }} 
-      />
+      {isChatOpen && (
+        <CopilotSidebar 
+          width={420} 
+          labels={{
+            welcomeMessageText: "Hola, soy Purpose360 Intelligence. ¿Cómo puedo ayudarte hoy?",
+            chatInputPlaceholder: "¿Cómo puedo ayudarte con tu estrategia hoy?",
+          }}
+          input={{ disclaimer: () => null, className: "pb-6" }} 
+        />
+      )}
       <Toaster position="bottom-right" toastOptions={{ classNames: { error: "!bg-rose-50 !text-rose-900 !border !border-rose-200" } }} />
     </>
   );
