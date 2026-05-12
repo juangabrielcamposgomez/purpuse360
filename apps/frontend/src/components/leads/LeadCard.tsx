@@ -40,13 +40,13 @@ export function LeadCard({
 }: LeadCardProps) {
   const pulsing = usePulse(lead.id, highlightedLeadIds ?? []);
   const ring = selected
-    ? "ring-2 ring-[#BEC2FF]"
+    ? "ring-2 ring-blue-500 shadow-lg shadow-blue-500/10"
     : highlighted
       ? "ring-2 ring-amber-400"
       : "ring-1 ring-border";
   const surface = highlighted
-    ? "bg-[#BEC2FF1A]"
-    : "bg-card hover:bg-[#BEC2FF1A]";
+    ? "bg-blue-50/50"
+    : "bg-white hover:bg-slate-50 transition-all duration-200";
   return (
     <motion.button
       type="button"
@@ -99,7 +99,7 @@ export function LeadCard({
               {lead.tools.slice(0, 5).map((t) => (
                 <span
                   key={t}
-                  className={`rounded-md bg-indigo-500/10 px-1.5 py-0.5 font-mono text-[10px] text-indigo-700 dark:text-indigo-300 border border-indigo-500/20`}
+                  className="rounded-md bg-blue-50 px-1.5 py-0.5 font-mono text-[10px] text-blue-700 border border-blue-100"
                 >
                   {t}
                 </span>
@@ -118,7 +118,7 @@ export function LeadCard({
               <span className="truncate">{lead.email}</span>
             </span>
             {lead.opt_in ? (
-              <span className="inline-flex items-center gap-1 text-emerald-600 dark:text-emerald-400 font-bold">
+              <span className="inline-flex items-center gap-1 text-emerald-500 font-bold">
                 <Check className="size-3" />
                 Verified
               </span>

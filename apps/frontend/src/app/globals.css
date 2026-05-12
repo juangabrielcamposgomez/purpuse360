@@ -2,37 +2,48 @@
 @import "tw-animate-css";
 
 :root {
-  --background: #EDEDF5;
-  --foreground: #010507;
+  /* 2026 Health-Tech Palette: Professional, Clean, Trustworthy */
+  --background: #F8FAFC; /* Slate 50 - Soft medical gray */
+  --foreground: #0F172A; /* Slate 900 - High legibility */
+  
   --card: #FFFFFF;
-  --card-foreground: #010507;
-  --primary: #010507;
+  --card-foreground: #0F172A;
+  
+  --primary: #2563EB; /* Blue 600 - "Clinical Confidence" Blue */
   --primary-foreground: #FFFFFF;
-  --secondary: #BEC2FF;
-  --secondary-foreground: #010507;
-  --muted: #F7F7F9;
-  --muted-foreground: #57575B;
-  --accent: #BEC2FF;
-  --accent-foreground: #010507;
-  --destructive: #FA5F67;
+  
+  --secondary: #E0E7FF; /* Indigo 100 - Soft accent for grouping */
+  --secondary-foreground: #1E1B4B;
+  
+  --muted: #F1F5F9; /* Slate 100 */
+  --muted-foreground: #64748B; /* Slate 500 */
+  
+  --accent: #DBEAFE; /* Blue 100 - Subtle highlights */
+  --accent-foreground: #1E40AF; /* Blue 800 */
+  
+  --destructive: #EF4444;
   --destructive-foreground: #FFFFFF;
-  --border: #DBDBE5;
+  
+  --border: #E2E8F0; /* Slate 200 - Clean separation */
   --input: #FFFFFF;
-  --ring: rgba(190, 194, 255, 0.6);
-  --chart-1: #BEC2FF;
-  --chart-2: #85ECCE;
-  --chart-3: #3D92E8;
-  --chart-4: #FFAC4D;
-  --chart-5: #FFF388;
-  --radius: 0.75rem;
+  --ring: rgba(37, 99, 235, 0.4);
+  
+  --chart-1: #2563EB; /* Primary Blue */
+  --chart-2: #10B981; /* Vitality Green */
+  --chart-3: #6366F1; /* Indigo */
+  --chart-4: #F59E0B; /* Warning Amber */
+  --chart-5: #EC4899; /* Pink */
+  
+  --radius: 1rem; /* Slightly softer corners for a modern feel */
+  
   --sidebar: #FFFFFF;
-  --sidebar-foreground: #010507;
-  --sidebar-primary: #010507;
+  --sidebar-foreground: #0F172A;
+  --sidebar-primary: #2563EB;
   --sidebar-primary-foreground: #FFFFFF;
-  --sidebar-accent: #BEC2FF;
-  --sidebar-accent-foreground: #010507;
-  --sidebar-border: #DBDBE5;
-  --sidebar-ring: rgba(190, 194, 255, 0.6);
+  --sidebar-accent: #EFF6FF;
+  --sidebar-accent-foreground: #1E40AF;
+  --sidebar-border: #E2E8F0;
+  --sidebar-ring: rgba(37, 99, 235, 0.4);
 }
 
 @theme inline {
@@ -225,3 +236,44 @@ html {
   animation: lead-card-just-synced 800ms ease-out 1;
 }
 
+
+/*
+  ---------------------------------------------------------------------
+  Purpose360 White-Labeling (CopilotKit Overrides)
+  ---------------------------------------------------------------------
+*/
+
+.copilotKitButton {
+  display: none !important;
+}
+
+[data-copilot-sidebar='true'] header {
+  background: var(--background) !important;
+  border-bottom: 1px solid var(--border) !important;
+}
+
+[data-copilot-sidebar='true'] h2 {
+  font-family: var(--font-jakarta) !important;
+  color: var(--primary) !important;
+  font-weight: 700 !important;
+}
+
+.copilotKitAssistantMessage {
+  background: white !important;
+  border: 1px solid var(--border) !important;
+  border-radius: 1rem 1rem 1rem 0.25rem !important;
+  color: var(--foreground) !important;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.05) !important;
+}
+
+.copilotKitUserMessage {
+  background: var(--primary) !important;
+  color: white !important;
+  border-radius: 1rem 1rem 0.25rem 1rem !important;
+}
+
+.copilotKitBranding, 
+.copilotKitPoweredBy {
+  display: none !important;
+  visibility: hidden !important;
+}

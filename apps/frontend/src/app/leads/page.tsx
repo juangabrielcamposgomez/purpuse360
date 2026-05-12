@@ -179,6 +179,8 @@ function CanvasInner() {
 
   const visibleLeads = useMemo(() => applyFilter(state.leads, state.filter), [state.leads, state.filter]);
 
+  const [isChatOpen, setIsChatOpen] = useState(true);
+
   return (
     <>
       <main className="flex h-screen flex-col gap-5 overflow-hidden bg-background px-6 py-6">
@@ -188,6 +190,7 @@ function CanvasInner() {
           totalLeads={state.leads.length}
           visibleLeads={visibleLeads.length}
           sync={state.sync}
+          onOpenChat={() => setIsChatOpen(!isChatOpen)}
         />
 
         {state.leads.length === 0 ? (
@@ -231,7 +234,16 @@ function CanvasInner() {
         )}
       </main>
 
-      <CopilotSidebar defaultOpen width={420} input={{ disclaimer: () => null, className: "pb-6" }} />
+      <CopilotSidebar 
+        open={isChatOpen} 
+        onOpenChange={setIsChatOpen}
+        width={420} 
+        labels={{
+          initial: "Hola, soy Purpose360 Intelligence. ¿Cómo puedo ayudarte hoy?",
+          chatInputPlaceholder: "¿Cómo puedo ayudarte con tu estrategia hoy?",
+        }}
+        input={{ disclaimer: () => null, className: "pb-6" }} 
+      />
       <Toaster position="bottom-right" toastOptions={{ classNames: { error: "!bg-rose-50 !text-rose-900 !border !border-rose-200" } }} />
     </>
   );

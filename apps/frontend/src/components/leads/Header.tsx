@@ -1,6 +1,6 @@
 "use client";
 
-import { RefreshCw } from "lucide-react";
+import { RefreshCw, Sparkles } from "lucide-react";
 import type { SyncMeta } from "@/lib/leads/types";
 
 interface HeaderProps {
@@ -9,6 +9,7 @@ interface HeaderProps {
   totalLeads: number;
   visibleLeads: number;
   sync: SyncMeta;
+  onOpenChat?: () => void;
 }
 
 export function Header({
@@ -17,6 +18,7 @@ export function Header({
   totalLeads,
   visibleLeads,
   sync,
+  onOpenChat,
 }: HeaderProps) {
   const isLocalMode = sync.databaseTitle?.startsWith("Local:") ?? false;
   return (
@@ -25,7 +27,17 @@ export function Header({
         <h1 className="text-2xl font-semibold tracking-tight text-foreground sm:text-3xl">
           {title}
         </h1>
-        <p className="mt-1 text-sm text-muted-foreground">{subtitle}</p>
+        <p className="mt-1 text-sm text-slate-500 font-medium">{subtitle}</p>
+      </div>
+
+      <div className="flex items-center gap-3">
+        <button
+          onClick={onOpenChat}
+          className="flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-xl text-sm font-bold shadow-lg shadow-blue-600/20 hover:bg-blue-700 transition-all active:scale-95 group"
+        >
+          <Sparkles className="size-4 group-hover:animate-pulse" />
+          Consultar IA
+        </button>
       </div>
       <div className="flex flex-wrap items-center gap-3 font-mono text-[11px] uppercase tracking-wide text-muted-foreground">
         <span className="tabular-nums">
@@ -33,7 +45,7 @@ export function Header({
           {visibleLeads !== totalLeads ? (
             <span className="text-muted-foreground"> / {totalLeads}</span>
           ) : null}{" "}
-          leads
+          registros
         </span>
         {sync.databaseTitle ? (
           <span className="inline-flex items-center gap-1.5">

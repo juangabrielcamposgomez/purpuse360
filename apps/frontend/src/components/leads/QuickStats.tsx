@@ -15,10 +15,10 @@ interface Tile {
 }
 
 const ACCENT: Record<NonNullable<Tile["accent"]>, string> = {
-  lilac: "#BEC2FF",
-  mint: "#85ECCE",
-  blue: "#3D92E8",
-  orange: "#FFAC4D",
+  indigo: "#6366F1",
+  mint: "#10B981",
+  blue: "#2563EB",
+  orange: "#F59E0B",
 };
 
 export function QuickStats({ leads }: QuickStatsProps) {
@@ -47,27 +47,27 @@ export function QuickStats({ leads }: QuickStatsProps) {
 
     return [
       {
-        label: "total leads",
+        label: "Pacientes Totales",
         value: total.toString(),
-        meta: total === 1 ? "lead in canvas" : "leads in canvas",
-        accent: "lilac",
-      },
-      {
-        label: "opt-in",
-        value: `${optInPct}%`,
-        meta: `${optIns} / ${total}`,
-        accent: "mint",
-      },
-      {
-        label: "top workshop",
-        value: topWorkshop?.name ?? "—",
-        meta: topWorkshop ? `${topWorkshop.count} interested` : "no leads yet",
+        meta: total === 1 ? "paciente activo" : "pacientes activos",
         accent: "blue",
       },
       {
-        label: "developers",
+        label: "Tasa de Conversión",
+        value: `${optInPct}%`,
+        meta: `${optIns} / ${total} aprobados`,
+        accent: "mint",
+      },
+      {
+        label: "Servicio Top",
+        value: topWorkshop?.name ?? "—",
+        meta: topWorkshop ? `${topWorkshop.count} consultas` : "sin datos",
+        accent: "indigo",
+      },
+      {
+        label: "Casos de Éxito",
         value: developers.toString(),
-        meta: total === 0 ? "—" : `${Math.round((developers / total) * 100)}% of canvas`,
+        meta: total === 0 ? "—" : `${Math.round((developers / total) * 100)}% de impacto`,
         accent: "orange",
       },
     ];
