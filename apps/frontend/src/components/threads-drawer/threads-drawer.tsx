@@ -50,34 +50,16 @@ const DOC_LINKS: Array<{
   external?: boolean;
 }> = [
   {
-    label: "About this Kit",
-    href: "/about",
+    label: "Panel Principal",
+    href: "/leads",
     icon: Info,
     external: false,
   },
   {
-    label: "Tool surface",
-    href: "/showcase",
+    label: "Herramientas IA",
+    href: "/leads",
     icon: Sparkles,
     external: false,
-  },
-  {
-    label: "Documentation",
-    href: "https://docs.copilotkit.ai/",
-    icon: BookOpen,
-    external: true,
-  },
-  {
-    label: "Intelligence Platform",
-    href: "https://docs.copilotkit.ai/learn/intelligence-platform",
-    icon: Sparkles,
-    external: true,
-  },
-  {
-    label: "Coding Agents",
-    href: "https://docs.copilotkit.ai/coding-agents",
-    icon: Code2,
-    external: true,
   },
 ];
 
@@ -358,11 +340,9 @@ export default function ThreadsDrawer({
 
         <div className={styles.drawerSurface}>
           <div className={styles.brandRow}>
-            <img
-              alt="CopilotKit"
-              className={styles.brandLogo}
-              src="/copilotkit-logo.svg"
-            />
+            <span className={styles.brandLogo} style={{ fontWeight: 800, fontSize: '1rem', color: '#2563EB', letterSpacing: '-0.02em' }}>
+              Purpose360 <span style={{ fontWeight: 400, color: '#64748B' }}>AI</span>
+            </span>
             <button
               aria-label="Collapse threads drawer"
               className={styles.iconButton}
@@ -617,25 +597,13 @@ export default function ThreadsDrawer({
           </div>
 
           <div className={styles.drawerFooter}>
-            <a
+            <span
               className={cx(styles.navItem, styles.navItemFlex)}
-              href="https://www.copilotkit.ai/"
-              rel="noopener noreferrer"
-              target="_blank"
+              style={{ cursor: 'default' }}
             >
-              <img
-                alt=""
-                aria-hidden
-                className={styles.navItemMark}
-                src="/copilotkit-logo-mark.svg"
-              />
-              <span>copilotkit.ai</span>
-              <ExternalLink
-                aria-hidden
-                className={styles.navItemExternal}
-                size={12}
-              />
-            </a>
+              <Sparkles aria-hidden size={14} style={{ color: '#2563EB' }} />
+              <span style={{ fontSize: '0.75rem', color: '#64748B' }}>Purpose360 AI © 2026</span>
+            </span>
             <button
               aria-label={
                 resolvedTheme === "dark"
