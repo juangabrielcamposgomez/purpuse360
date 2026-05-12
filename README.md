@@ -1,4 +1,5 @@
-# Purpose360 AI | Intelligent OS for Health & Wellness Professionals
+# Purpose360 AI
+<!-- Notion integration configured and verified --> | Intelligent OS for Health & Wellness Professionals
 
 ![Purpose360 Banner](apps/frontend/public/banner.jpg)
 
