@@ -179,7 +179,7 @@ function CanvasInner() {
 
   const visibleLeads = useMemo(() => applyFilter(state.leads, state.filter), [state.leads, state.filter]);
 
-  const [isChatOpen, setIsChatOpen] = useState(true);
+  const [isChatOpen, setIsChatOpen] = useState(false);
 
   return (
     <>
