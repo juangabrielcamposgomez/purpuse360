@@ -22,9 +22,9 @@ const splineMono = Spline_Sans_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Purpose360 AI | Intelligent OS",
+  title: "Purpose360 AI | Sistema Operativo Inteligente para Profesionales de la Salud",
   description:
-    "Intelligent Operating System for Healthcare & Wellness Professionals. Powered by CopilotKit, LangChain, and Generative UI.",
+    "Plataforma inteligente para la gestión, automatización y crecimiento de consultorios médicos y profesionales del bienestar.",
 };
 
 export default function RootLayout({

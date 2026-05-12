@@ -238,6 +238,7 @@ function CanvasInner() {
         <CopilotSidebar 
           width={420} 
           labels={{
+            modalHeaderTitle: "Purpose360 Intelligence",
             welcomeMessageText: "Hola, soy Purpose360 Intelligence. ¿Cómo puedo ayudarte hoy?",
             chatInputPlaceholder: "¿Cómo puedo ayudarte con tu estrategia hoy?",
           }}
