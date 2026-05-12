@@ -291,3 +291,24 @@ html {
   overflow: hidden !important;
   pointer-events: none !important;
 }
+
+/* OPCIÓN NUCLEAR: Borrado total de marca del framework */
+[class*='copilotKit'], 
+[class*='ck-'], 
+[class*='poweredBy'], 
+[class*='branding'] {
+  --ck-branding-display: none !important;
+}
+
+.copilotKitBranding, 
+.ck-powered-by, 
+.ck-logo, 
+[data-testid*='branding'] {
+  display: none !important;
+  visibility: hidden !important;
+  opacity: 0 !important;
+  height: 0 !important;
+  width: 0 !important;
+  position: absolute !important;
+  pointer-events: none !important;
+}
