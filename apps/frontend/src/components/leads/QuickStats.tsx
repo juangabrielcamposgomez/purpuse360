@@ -83,7 +83,7 @@ export function QuickStats({ leads }: QuickStatsProps) {
           <div className="flex items-center gap-2">
             <span
               className="size-2 rounded-full"
-              style={{ background: ACCENT[t.accent ?? "lilac"] }}
+              style={{ background: ACCENT[t.accent ?? "blue"] }}
               aria-hidden
             />
             <span className="font-mono text-[10px] uppercase tracking-wide text-muted-foreground">
