@@ -25,9 +25,7 @@ export function CopilotKitProviderShell({
   return (
     <CopilotKitProvider
       runtimeUrl="/api/copilotkit"
-      publicApiKey={process.env.NEXT_PUBLIC_COPILOT_CLOUD_PUBLIC_API_KEY}
       licenseToken={process.env.NEXT_PUBLIC_COPILOTKIT_LICENSE_TOKEN}
-      openGenerativeUI={{}}
     >
       {children}
     </CopilotKitProvider>

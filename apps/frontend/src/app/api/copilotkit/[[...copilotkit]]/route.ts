@@ -3,6 +3,7 @@ import {
   CopilotKitIntelligence,
   createCopilotRuntimeHandler,
 } from "@copilotkit/runtime/v2";
+import { LangGraphAgent } from "@copilotkit/runtime/langgraph";
 
 const intelligence = new CopilotKitIntelligence({
   apiKey: process.env.INTELLIGENCE_API_KEY || "",
@@ -10,11 +11,18 @@ const intelligence = new CopilotKitIntelligence({
   wsUrl: process.env.INTELLIGENCE_GATEWAY_WS_URL || (process.env.NODE_ENV === 'production' ? "wss://api.cloud.copilotkit.ai/v1" : "ws://localhost:4403"),
 });
 
+const agent = new LangGraphAgent({
+  deploymentUrl: process.env.LANGGRAPH_DEPLOYMENT_URL || "http://localhost:8123",
+  graphId: "default",
+});
+
 const runtime = new CopilotRuntime({
   intelligence,
   identifyUser: () => ({ id: "default", name: "Purpose360 AI Professional" }),
   licenseToken: process.env.COPILOTKIT_LICENSE_TOKEN || process.env.NEXT_PUBLIC_COPILOTKIT_LICENSE_TOKEN,
-  agents: {}, // Required property, even if empty
+  agents: {
+    default: agent,
+  },
   openGenerativeUI: true,
 });
 
@@ -25,7 +33,6 @@ const baseHandler = createCopilotRuntimeHandler({
 
 const handler = async (req: Request) => {
   try {
-    console.log(`[CopilotKit] ${req.method} ${req.url}`);
     const res = await baseHandler(req);
     return res;
   } catch (error: any) {
