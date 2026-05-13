@@ -152,6 +152,7 @@ def _gemini_llm():
     from langchain_google_genai import ChatGoogleGenerativeAI
 
     api_key = os.getenv("GEMINI_API_KEY") or os.getenv("GOOGLE_API_KEY") or "stub"
+    print(f"[runtime] Using API Key starting with: {api_key[:4]}...", flush=True)
     return ChatGoogleGenerativeAI(
         model="gemini-1.5-flash",
         temperature=0,
