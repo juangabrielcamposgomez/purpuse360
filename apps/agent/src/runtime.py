@@ -144,17 +144,16 @@ def _build_noop(message: str) -> CompiledStateGraph:
 # --------------------------------------------------------------------- gemini
 
 def _gemini_llm():
-    """Build the configured Gemini Flash-Lite chat model.
+    """Build the configured Gemini Flash chat model.
 
-    Default: `gemini-3.1-flash-lite` — the high-volume workhorse in the
-    Gemini 3 family. Verified against `langchain-google-genai` 2.x;
-    swap the id here if you want `gemini-3-flash` or a future tier.
+    Default: `gemini-1.5-flash` — the high-volume workhorse in the
+    Gemini family. Verified against `langchain-google-genai` 2.x.
     """
     from langchain_google_genai import ChatGoogleGenerativeAI
 
     api_key = os.getenv("GEMINI_API_KEY") or os.getenv("GOOGLE_API_KEY") or "stub"
     return ChatGoogleGenerativeAI(
-        model="gemini-3.1-flash-lite",
+        model="gemini-1.5-flash",
         temperature=0,
         api_key=api_key,
     )
