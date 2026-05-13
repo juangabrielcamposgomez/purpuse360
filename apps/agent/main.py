@@ -42,7 +42,20 @@ def _select_runtime() -> str:
     valid = {"gemini-flash-deep", "gemini-flash-react", "claude-sonnet-4-6-react", "noop"}
     if runtime not in valid:
         print(f"[main] WARN: unknown AGENT_RUNTIME={runtime!r}, using gemini-flash-react", flush=True)
-        return "gemini-flash-react"
+        runtime = "gemini-flash-react"
+
+    has_gemini = bool(os.getenv("GEMINI_API_KEY") or os.getenv("GOOGLE_API_KEY"))
+    is_gemini_runtime = runtime in ("gemini-flash-deep", "gemini-flash-react")
+    is_claude_runtime = runtime == "claude-sonnet-4-6-react"
+    has_anthropic = bool(os.getenv("ANTHROPIC_API_KEY"))
+
+    if is_gemini_runtime and not has_gemini:
+        print("[main] GEMINI_API_KEY not set — falling back to noop runtime", flush=True)
+        return "noop"
+    if is_claude_runtime and not has_anthropic:
+        print("[main] ANTHROPIC_API_KEY not set — falling back to noop runtime", flush=True)
+        return "noop"
+
     if runtime == "gemini-flash-deep":
         print("[main] NOTE: gemini-flash-deep uses deepagents planner — may be slower but more thorough", flush=True)
     return runtime
