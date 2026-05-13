@@ -180,8 +180,11 @@ html {
   animation: lead-card-pulse 2s ease-out 1;
 }
 
-  Note: ::after positioning relies on .relative on the card root, which
-  LeadCard already sets via its `motion.button` class.
+  /*
+    Note: ::after positioning relies on .relative on the card root, which
+    LeadCard already sets via its `motion.button` class.
+  */
+
 
 @keyframes lead-card-spin {
   to {
