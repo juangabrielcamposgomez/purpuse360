@@ -20,14 +20,6 @@ export type Source =
   | "Event"
   | "Other";
 
-export type LeadStatus = "New Patient" | "Consultation" | "Treatment Plan";
-
-export const STATUSES: readonly LeadStatus[] = [
-  "New Patient",
-  "Consultation",
-  "Treatment Plan",
-] as const;
-
 export const WORKSHOPS: readonly Workshop[] = [
   "Agentic UI (AG-UI)",
   "MCP Apps / Tooling",
@@ -84,6 +76,35 @@ export interface AgentState {
   selectedLeadId: string | null;
   header: { title: string; subtitle: string };
   sync: SyncMeta;
+}
+
+// --- 4 Pillars Strategic Brand OS -----------------------------------------
+// Types only — runtime constants live in constants.ts
+
+export type PillarKey = "posicionamiento" | "visibilidad" | "identidad" | "humanizacion";
+
+export type PillarStatus = "not_started" | "in_progress" | "needs_attention" | "on_track";
+
+export interface PillarState {
+  score: number;
+  status: PillarStatus;
+  last_review: string;
+  next_action: string;
+  history: PillarAction[];
+}
+
+export interface PillarAction {
+  action: string;
+  date: string;
+  impact: number;
+}
+
+export interface PillarPlan {
+  specialty: string;
+  overall_health_score: number;
+  last_review: string;
+  pillars: Record<PillarKey, PillarState>;
+  pending_actions?: { pillar: string; action: string; score: number }[];
 }
 
 // Mirrors the Python `NotionHealth` TypedDict in

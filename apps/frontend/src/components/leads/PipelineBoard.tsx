@@ -14,7 +14,7 @@ import {
   type DragStartEvent,
 } from "@dnd-kit/core";
 import type { Lead } from "@/lib/leads/types";
-import { STATUSES } from "@/lib/leads/types";
+import { LEAD_STATUSES } from "@/lib/leads/constants";
 import { groupByStatus, statusClass } from "@/lib/leads/derive";
 import { LeadCard } from "./LeadCard";
 
@@ -81,7 +81,7 @@ export function PipelineBoard({
       onDragCancel={() => setDraggingLead(null)}
     >
       <div className="flex h-full gap-4 overflow-x-auto pb-2">
-        {STATUSES.map((s) => {
+        {LEAD_STATUSES.map((s) => {
           const list = groups[s] ?? [];
           return (
             <DroppableColumn key={s} status={s} count={list.length}>

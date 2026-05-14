@@ -13,9 +13,9 @@ import { ThreadsDrawer } from "@/components/threads-drawer";
 import drawerStyles from "@/components/threads-drawer/threads-drawer.module.css";
 
 import type { AgentState, Lead } from "@/lib/leads/types";
-import { initialState } from "@/lib/leads/state";
 import { applyFilter } from "@/lib/leads/derive";
 import { applyPatch, revertPatch } from "@/lib/leads/optimistic";
+import { mergeAgentState } from "@/lib/leads/agent-state";
 
 import { Header } from "@/components/leads/Header";
 import { PipelineBoard } from "@/components/leads/PipelineBoard";
@@ -31,21 +31,6 @@ function ClientOnly({ children }: { children: React.ReactNode }) {
   useEffect(() => setMounted(true), []);
   if (!mounted) return null;
   return <>{children}</>;
-}
-
-function mergeAgentState(raw: unknown): AgentState {
-  const partial =
-    raw && typeof raw === "object" ? (raw as Partial<AgentState>) : {};
-  return {
-    ...initialState,
-    ...partial,
-    filter: { ...initialState.filter, ...(partial.filter ?? {}) },
-    header: { ...initialState.header, ...(partial.header ?? {}) },
-    sync: { ...initialState.sync, ...(partial.sync ?? {}) },
-    leads: partial.leads ?? initialState.leads,
-    highlightedLeadIds:
-      partial.highlightedLeadIds ?? initialState.highlightedLeadIds,
-  };
 }
 
 function CanvasInner() {

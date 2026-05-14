@@ -30,6 +30,7 @@ RuntimeName = Literal[
     "gemini-flash-deep",
     "gemini-flash-react",
     "claude-sonnet-4-6-react",
+    "grok-react",
     "noop",
 ]
 
@@ -38,6 +39,7 @@ _VALID_RUNTIMES = (
     "gemini-flash-deep",
     "gemini-flash-react",
     "claude-sonnet-4-6-react",
+    "grok-react",
     "noop",
 )
 
@@ -46,8 +48,8 @@ _VALID_RUNTIMES = (
 # the phase-05 acceptance criteria: a missing GEMINI_API_KEY must surface a
 # 3s reply with this text instead of hanging on "thinking…".
 NOOP_FALLBACK_MESSAGE = (
-    "Set `GEMINI_API_KEY` in agent/.env to enable the agent. "
-    "The starter is otherwise fully wired and will work as soon as you add a key."
+    "Set the required API key (GEMINI_API_KEY, ANTHROPIC_API_KEY, or XAI_API_KEY) "
+    "in agent/.env to enable the agent, then restart."
 )
 
 
@@ -91,6 +93,8 @@ def build_graph(
         return _build_gemini_react(tools, system_prompt, middleware)
     if runtime == "claude-sonnet-4-6-react":
         return _build_claude_react(tools, system_prompt, middleware)
+    if runtime == "grok-react":
+        return _build_grok_react(tools, system_prompt, middleware)
 
     # Unreachable (validated above) — placate type-checker
     raise RuntimeError(f"unreachable runtime branch: {runtime!r}")
@@ -196,6 +200,36 @@ def _build_gemini_react(
     from langchain.agents import create_agent
 
     llm = _gemini_llm()
+    return create_agent(
+        model=llm,
+        tools=tools,
+        system_prompt=system_prompt,
+        middleware=middleware,
+    )
+
+
+# ----------------------------------------------------------------------- grok
+
+def _build_grok_react(
+    tools: list, system_prompt: str, middleware: list
+) -> CompiledStateGraph:
+    from langchain.agents import create_agent
+    from langchain_openai import ChatOpenAI
+
+    api_key = os.getenv("XAI_API_KEY") or ""
+    if not api_key:
+        print(
+            "\n  XAI_API_KEY is unset.\n"
+            "   Set XAI_API_KEY in agent/.env to use Grok.\n",
+            flush=True,
+        )
+
+    llm = ChatOpenAI(
+        model="grok-2",
+        temperature=0,
+        api_key=api_key or "stub",
+        base_url="https://api.x.ai/v1",
+    )
     return create_agent(
         model=llm,
         tools=tools,

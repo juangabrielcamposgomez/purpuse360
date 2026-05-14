@@ -1,10 +1,10 @@
 import { useCallback } from "react";
 import { z } from "zod";
-import { useFrontendTool, useAgent, useCopilotKit } from "@copilotkit/react-core/v2";
-import { toast } from "sonner";
+import { useFrontendTool, useAgent } from "@copilotkit/react-core/v2";
 import type { Lead, LeadFilter, AgentState } from "@/lib/leads/types";
-import { initialState, emptyFilter } from "@/lib/leads/state";
+import { emptyFilter } from "@/lib/leads/state";
 import { applyPatch } from "@/lib/leads/optimistic";
+import { mergeAgentState } from "@/lib/leads/agent-state";
 
 const leadShape = z.object({
   id: z.string(),
@@ -24,21 +24,6 @@ const leadShape = z.object({
   message: z.string().default(""),
   submitted_at: z.string().default(""),
 });
-
-function mergeAgentState(raw: unknown): AgentState {
-  const partial =
-    raw && typeof raw === "object" ? (raw as Partial<AgentState>) : {};
-  return {
-    ...initialState,
-    ...partial,
-    filter: { ...initialState.filter, ...(partial.filter ?? {}) },
-    header: { ...initialState.header, ...(partial.header ?? {}) },
-    sync: { ...initialState.sync, ...(partial.sync ?? {}) },
-    leads: partial.leads ?? initialState.leads,
-    highlightedLeadIds:
-      partial.highlightedLeadIds ?? initialState.highlightedLeadIds,
-  };
-}
 
 export function useLeadsTools(
   commitLeadEdit: (leadId: string, patch: Partial<Lead>) => void

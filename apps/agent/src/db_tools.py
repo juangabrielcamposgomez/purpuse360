@@ -1,3 +1,4 @@
+import json
 from typing import Annotated, Dict, Any, List
 from langchain_core.tools import tool
 from db_store import get_db
@@ -55,10 +56,119 @@ def get_professional_context() -> str:
     import json
     return json.dumps(context, indent=2)
 
+@tool
+def save_pillar_strategy(
+    specialty: Annotated[str, "Healthcare specialty (e.g., 'neurólogo', 'psicólogo')"],
+    pillars: Annotated[
+        Dict[str, Any],
+        "Dict with keys: posicionamiento, visibilidad, identidad, humanizacion. "
+        "Each value is a dict with optional keys: score (0-100), next_action (str). "
+        "Example: {'posicionamiento': {'score': 40, 'next_action': 'Publicar artículo sobre apnea'}}",
+    ],
+) -> str:
+    """Save or update the 4 Pillars strategic plan for a healthcare professional.
+    
+    Call this after the onboarding audit or whenever pillars are reviewed.
+    Always include ALL FOUR pillars even if only one changed.
+    """
+    db = get_db()
+    ctx = db.get_expert_context()
+    expert_id = (ctx or {}).get("id") or "default"
+    db.save_pillar_plan(expert_id, specialty, pillars)
+    plan = db.get_pillar_plan()
+    health = plan.get("overall_health_score", 0) if plan else 0
+    return (
+        f"Pillar strategy saved for {specialty}. "
+        f"Overall brand health: {health}/100. "
+        f"The dashboard will reflect this immediately."
+    )
+
+
+@tool
+def get_pillar_plan() -> str:
+    """Retrieve the current 4 Pillars strategic plan.
+    
+    Returns the full plan including scores, next actions, and history
+    for all four pillars (posicionamiento, visibilidad, identidad, humanizacion).
+    Use this to understand the professional's brand health before suggesting actions.
+    """
+    db = get_db()
+    plan = db.get_pillar_plan()
+    if not plan:
+        return json.dumps({
+            "error": "No pillar plan found. Run the 4 Pillars audit first via renderProfessionalOnboarding.",
+            "overall_health_score": 0,
+            "pillars": {}
+        })
+    result = {
+        "specialty": plan.get("specialty", ""),
+        "overall_health_score": plan.get("overall_health_score", 0),
+        "last_review": plan.get("last_agent_update", ""),
+        "pillars": plan.get("pillars", {}),
+    }
+    pending = db.get_pending_pillar_actions()
+    if pending:
+        result["pending_actions"] = pending
+    return json.dumps(result, indent=2)
+
+
+@tool
+def update_pillar_action(
+    pillar_key: Annotated[
+        str,
+        "Which pillar to update: 'posicionamiento', 'visibilidad', 'identidad', or 'humanizacion'",
+    ],
+    action: Annotated[str, "Description of the action completed (e.g., 'Published 3 LinkedIn articles')"],
+    score_delta: Annotated[
+        int,
+        "How many points this action adds to the pillar score (0-20, default 5). "
+        "Small actions = 3, medium = 5, big milestones = 10.",
+    ] = 5,
+) -> str:
+    """Record a completed action for a pillar and update the score.
+    
+    Call this AFTER the professional completes a pillar action
+    (e.g., published content, recorded a reel, updated their brand kit).
+    The dashboard will reflect the new score immediately.
+    """
+    db = get_db()
+    plan = db.update_pillar_action(pillar_key, action, score_delta)
+    if not plan:
+        return (
+            f"Could not update pillar '{pillar_key}'. "
+            "Make sure a pillar plan exists (run save_pillar_strategy first)."
+        )
+    pillar = plan["pillars"].get(pillar_key, {})
+    return (
+        f"Pillar '{pillar_key}' updated. "
+        f"Action recorded: {action}. "
+        f"New score: {pillar.get('score', 0)}/100. "
+        f"Overall brand health: {plan.get('overall_health_score', 0)}/100."
+    )
+
+
+@tool
+def get_pending_pillar_actions() -> str:
+    """Get all pending next actions across the 4 pillars.
+    
+    Use this to remind the professional what they should work on next.
+    Returns an empty list if everything is up to date.
+    """
+    db = get_db()
+    pending = db.get_pending_pillar_actions()
+    if not pending:
+        return json.dumps({"pending": [], "message": "No pending actions. All pillars are up to date."})
+    return json.dumps({"pending": pending}, indent=2)
+
+
 def load_db_tools() -> List[Any]:
     """Return the list of database-backed tools for the agent."""
     return [
         save_expert_profile,
         persist_generated_interface,
-        get_professional_context
+        get_professional_context,
+        save_pillar_strategy,
+        get_pillar_plan,
+        update_pillar_action,
+        get_pending_pillar_actions,
     ]

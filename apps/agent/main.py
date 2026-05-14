@@ -39,7 +39,7 @@ from runtime import build_graph
 
 def _select_runtime() -> str:
     runtime = os.getenv("AGENT_RUNTIME", "gemini-flash-react")
-    valid = {"gemini-flash-deep", "gemini-flash-react", "claude-sonnet-4-6-react", "noop"}
+    valid = {"gemini-flash-deep", "gemini-flash-react", "claude-sonnet-4-6-react", "grok-react", "noop"}
     if runtime not in valid:
         print(f"[main] WARN: unknown AGENT_RUNTIME={runtime!r}, using gemini-flash-react", flush=True)
         runtime = "gemini-flash-react"
@@ -47,13 +47,18 @@ def _select_runtime() -> str:
     has_gemini = bool(os.getenv("GEMINI_API_KEY") or os.getenv("GOOGLE_API_KEY"))
     is_gemini_runtime = runtime in ("gemini-flash-deep", "gemini-flash-react")
     is_claude_runtime = runtime == "claude-sonnet-4-6-react"
+    is_grok_runtime = runtime == "grok-react"
     has_anthropic = bool(os.getenv("ANTHROPIC_API_KEY"))
+    has_xai = bool(os.getenv("XAI_API_KEY"))
 
     if is_gemini_runtime and not has_gemini:
         print("[main] GEMINI_API_KEY not set — falling back to noop runtime", flush=True)
         return "noop"
     if is_claude_runtime and not has_anthropic:
         print("[main] ANTHROPIC_API_KEY not set — falling back to noop runtime", flush=True)
+        return "noop"
+    if is_grok_runtime and not has_xai:
+        print("[main] XAI_API_KEY not set — falling back to noop runtime", flush=True)
         return "noop"
 
     if runtime == "gemini-flash-deep":

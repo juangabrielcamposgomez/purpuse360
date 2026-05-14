@@ -11,36 +11,11 @@ import { LeadMiniCard } from "@/components/leads/inline/LeadMiniCard";
 import { EmailDraftCard } from "@/components/leads/inline/EmailDraftCard";
 import { ToolFallbackCard } from "@/components/copilot/ToolFallbackCard";
 import { WorkshopDemand } from "@/components/leads/WorkshopDemand";
-import { useAgent } from "@copilotkit/react-core/v2";
-import { initialState } from "@/lib/leads/state";
 import type { AgentState } from "@/lib/leads/types";
-
-function mergeAgentState(raw: unknown): AgentState {
-  const partial =
-    raw && typeof raw === "object" ? (raw as Partial<AgentState>) : {};
-  return {
-    ...initialState,
-    ...partial,
-    filter: { ...initialState.filter, ...(partial.filter ?? {}) },
-    header: { ...initialState.header, ...(partial.header ?? {}) },
-    sync: { ...initialState.sync, ...(partial.sync ?? {}) },
-    leads: partial.leads ?? initialState.leads,
-    highlightedLeadIds:
-      partial.highlightedLeadIds ?? initialState.highlightedLeadIds,
-  };
-}
-
-function useLiveAgentState() {
-  const { agent } = useAgent();
-  const state = mergeAgentState(agent?.state);
-  const setState = (updater: (prev: AgentState) => AgentState) => {
-    agent?.setState(updater(mergeAgentState(agent?.state)));
-  };
-  return { agent, state, setState };
-}
+import { useAgentState } from "@/lib/leads/agent-state";
 
 function LiveWorkshopDemand() {
-  const { state, setState } = useLiveAgentState();
+  const { state, setState } = useAgentState();
   return (
     <div className="my-2">
       <WorkshopDemand

@@ -2,16 +2,16 @@
 
 import { useMemo } from "react";
 import type { Lead } from "@/lib/leads/types";
-import { STATUSES } from "@/lib/leads/types";
+import { LEAD_STATUSES } from "@/lib/leads/constants";
 
 export interface StatusDonutProps {
   leads: Lead[];
 }
 
 const STATUS_COLOR: Record<string, string> = {
-  "New Patient": "#BEC2FF", // lilac
-  "Consultation": "#85ECCE", // mint
-  "Treatment Plan": "#3D92E8", // blue
+  "Not started": "#BEC2FF", // lilac
+  "In progress": "#85ECCE", // mint
+  "Done": "#3D92E8", // blue
 };
 
 const STATUS_TRACK = "#F0F0F4";
@@ -19,12 +19,12 @@ const STATUS_TRACK = "#F0F0F4";
 export function StatusDonut({ leads }: StatusDonutProps) {
   const segments = useMemo(() => {
     const counts = new Map<string, number>();
-    for (const s of STATUSES) counts.set(s, 0);
+    for (const s of LEAD_STATUSES) counts.set(s, 0);
     for (const l of leads) {
-      const s = l.status || "New Patient";
+      const s = l.status || "Not started";
       counts.set(s, (counts.get(s) ?? 0) + 1);
     }
-    return STATUSES.map((s) => ({ status: s, count: counts.get(s) ?? 0 }));
+    return LEAD_STATUSES.map((s) => ({ status: s, count: counts.get(s) ?? 0 }));
   }, [leads]);
 
   const total = leads.length;

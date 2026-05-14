@@ -1,0 +1,15 @@
+{
+  "pillar_keys": ["posicionamiento", "visibilidad", "identidad", "humanizacion"],
+  "pillar_labels": {
+    "posicionamiento": "Posicionamiento",
+    "visibilidad": "Visibilidad",
+    "identidad": "Identidad",
+    "humanizacion": "Humanización"
+  },
+  "lead_statuses": ["Not started", "In progress", "Done"],
+  "lead_status_display": {
+    "Not started": "Nuevo Paciente",
+    "In progress": "En Consulta",
+    "Done": "Plan de Tratamiento"
+  }
+}

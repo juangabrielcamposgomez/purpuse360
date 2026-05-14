@@ -1,5 +1,5 @@
 import type { Lead, LeadFilter } from "./types";
-import { STATUSES } from "./types";
+import { LEAD_STATUSES } from "./constants";
 
 export function applyFilter(leads: Lead[], f: LeadFilter): Lead[] {
   const search = f.search.trim().toLowerCase();
@@ -25,11 +25,11 @@ export function applyFilter(leads: Lead[], f: LeadFilter): Lead[] {
 
 export function groupByStatus(leads: Lead[]): Record<string, Lead[]> {
   const groups: Record<string, Lead[]> = {};
-  for (const s of STATUSES) groups[s] = [];
+  for (const s of LEAD_STATUSES) groups[s] = [];
   for (const l of leads) {
-    const key = (STATUSES as readonly string[]).includes(l.status)
+    const key = (LEAD_STATUSES as readonly string[]).includes(l.status)
       ? l.status
-      : "New Patient";
+      : "Not started";
     (groups[key] ||= []).push(l);
   }
   return groups;
@@ -80,11 +80,11 @@ export function workshopClass(workshop: string): string {
 }
 
 const STATUS_COLORS: Record<string, string> = {
-  "New Patient":
+  "Not started":
     "bg-blue-500/15 text-blue-700 dark:text-blue-300 ring-blue-500/30",
-  "Consultation":
+  "In progress":
     "bg-amber-500/15 text-amber-700 dark:text-amber-300 ring-amber-500/30",
-  "Treatment Plan": "bg-emerald-500/15 text-emerald-700 dark:text-emerald-300 ring-emerald-500/30",
+  "Done": "bg-emerald-500/15 text-emerald-700 dark:text-emerald-300 ring-emerald-500/30",
 };
 
 export function statusClass(status: string): string {
