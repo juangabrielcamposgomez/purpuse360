@@ -4,6 +4,5 @@
   "outputDirectory": ".next",
   "installCommand": "pnpm install",
   "framework": "nextjs",
-  "nodeVersion": "22.x",
   "regions": ["iad1"]
 }
